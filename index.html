@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo do Amor 💖</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        header {
+            background-color: #ff6f91;
+            padding: 20px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .question {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #ff6f91;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #ff4f70;
+            transform: scale(1.1);
+        }
+
+        .result {
+            font-size: 20px;
+            margin: 20px 0;
+        }
+
+        .letter {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 300px;
+            height: 200px;
+            background: white;
+            border: 2px solid #ff6f91;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            padding: 20px;
+            z-index: 100;
+            animation: openLetter 1s forwards;
+        }
+
+        .letter h2 {
+            color: #ff6f91;
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .letter p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        @keyframes openLetter {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>Jogo do Amor 💖</header>
+
+    <div class="container">
+        <p class="intro">Bem-vindo, Matheus! Vamos testar o quanto você conhece o Felipe. 🥰</p>
+
+        <div id="game">
+            <p id="question" class="question">Carregando pergunta...</p>
+            <input type="text" id="answer" placeholder="Digite sua resposta aqui">
+            <button onclick="checkAnswer()">Enviar</button>
+        </div>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <div id="letter" class="letter">
+        <h2>Pedido Especial 💌</h2>
+        <p>Matheus, você aceita namorar comigo? 💍</p>
+    </div>
+
+    <footer>Feito com amor por Felipe para Matheus ❤️</footer>
+
+    <script>
+        const perguntas = [
+            { pergunta: "Qual é a comida favorita do Felipe?", resposta: "lasanha" },
+            { pergunta: "Qual é o esporte que o Felipe pratica?", resposta: "futebol" },
+            { pergunta: "Qual é o jogo preferido do Felipe?", resposta: "valorant" },
+            { pergunta: "Qual o anime preferido do Felipe?", resposta: "bleach" }
+        ];
+
+        let currentQuestion = 0;
+        let pontos = 0;
+
+        function mostrarPergunta() {
+            if (currentQuestion < perguntas.length) {
+                document.getElementById("question").textContent = perguntas[currentQuestion].pergunta;
+                document.getElementById("answer").value = "";
+                document.getElementById("result").textContent = "";
+            } else {
+                finalizarJogo();
+            }
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
+            const correctAnswer = perguntas[currentQuestion].resposta.toLowerCase();
+
+            if (userAnswer === correctAnswer) {
+                pontos++;
+                document.getElementById("result").textContent = "Resposta correta! 🥰";
+            } else {
+                document.getElementById("result").textContent = `Resposta errada! A resposta certa era: ${perguntas[currentQuestion].resposta}.`;
+            }
+
+            currentQuestion++;
+            setTimeout(mostrarPergunta, 2000);
+        }
+
+        function finalizarJogo() {
+            const message = pontos === perguntas.length
+                ? `Parabéns, Matheus! Você acertou todas as perguntas e conhece o Felipe muito bem! 💕`
+                : `Você acertou ${pontos} de ${perguntas.length} perguntas! Isso mostra o quanto vocês se completam. 😍`;
+
+            document.getElementById("game").innerHTML = "";
+            document.getElementById("result").textContent = message;
+
+            setTimeout(() => {
+                document.getElementById("letter").style.display = "block";
+            }, 3000);
+        }
+
+        window.onload = mostrarPergunta;
+    </script>
+</body>
+</html>
